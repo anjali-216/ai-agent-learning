@@ -1,0 +1,7 @@
+Libertum is a modern fintech platform designed to modernize real estate transactions using blockchain technology. 
+
+Key features include:
+- Hybrid Architecture: It combines on-chain smart contracts for secure asset ownership and settlement with off-chain backend orchestration for operational tasks like KYC verification and notifications.
+- Operational Transparency: Ownership records and transaction histories are publicly verifiable on-chain, reducing the need for intermediaries and paperwork.
+- Technical Infrastructure: The platform utilizes a scalable microservices architecture communicating via API contracts and Apache Kafka event streams. It leverages Ethereum-compatible Layer 2 networks (such as Base) to keep transaction costs low for users.
+- Regulatory Compliance: Libertum aligns with global regulatory frameworks, including SEC Regulation D (USA), MiCA (EU), and the MAS framework (Singapore).

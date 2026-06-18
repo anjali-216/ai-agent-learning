@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "question": "What is Libertum?",
+        "expected_mention": "real estate tokenization",
+        "category": "Knowledge"
+    },
+    {
+        "id": 2,
+        "question": "What is 15% of 1200?",
+        "expected_mention": "180",
+        "category": "Logic/Math"
+    },
+    {
+        "id": 3,
+        "question": "Who is the current Prime Minister of the UK?",
+        "expected_mention": "Keir Starmer",
+        "category": "Web Search"
+    }
+]

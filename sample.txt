@@ -1,0 +1,16 @@
+PostgreSQL is a relational database management system.
+
+Installation:
+Download PostgreSQL from the official website and follow the installation wizard.
+
+Configuration:
+The main configuration file is postgresql.conf. It controls memory, connections, and logging settings.
+
+Backup:
+Use pg_dump to create backups of a PostgreSQL database.
+
+Performance:
+Indexes help improve query performance by reducing table scans.
+
+Security:
+PostgreSQL supports role-based authentication and SSL encryption.
