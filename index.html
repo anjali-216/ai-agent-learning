@@ -4,380 +4,1901 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libertum AI | Intelligent Document Assistant</title>
+    <title>Nexus AI — Personal Life Assistant</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --bg: #0f172a;
-            --card: #1e293b;
-            --text: #f8fafc;
-            --text-dim: #94a3b8;
-            --glass: rgba(30, 41, 59, 0.7);
-            --border: rgba(255, 255, 255, 0.1);
+            --bg: #07080a;
+            --surface: #0e1117;
+            --surface-2: #161b26;
+            --surface-3: #1e2635;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-hover: rgba(255, 255, 255, 0.14);
+            --primary: #7c3aed;
+            --primary-light: #8b5cf6;
+            --primary-glow: rgba(124, 58, 237, 0.4);
+            --green: #10b981;
+            --green-dim: rgba(16, 185, 129, 0.15);
+            --yellow: #f59e0b;
+            --yellow-dim: rgba(245, 158, 11, 0.15);
+            --red: #ef4444;
+            --red-dim: rgba(239, 68, 68, 0.15);
+            --blue: #3b82f6;
+            --blue-dim: rgba(59, 130, 246, 0.15);
+            --text: #f0f4f8;
+            --text-2: #94a3b8;
+            --text-3: #555f6e;
+            --sidebar-w: 240px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Outfit', sans-serif;
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             background: var(--bg);
-            background-image: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent),
-                radial-gradient(circle at bottom left, rgba(79, 70, 229, 0.1), transparent);
             color: var(--text);
-            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100vh;
             overflow: hidden;
         }
 
-        .container {
-            width: 900px;
-            height: 85vh;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
+        /* ── SIDEBAR ─────────────────────────────────────────────── */
+        .sidebar {
+            width: var(--sidebar-w);
+            min-width: var(--sidebar-w);
+            background: var(--surface);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            padding: 24px 12px;
+            gap: 4px;
+            z-index: 100;
         }
 
-        header {
-            padding: 24px 32px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px 28px;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px var(--primary-glow);
+            font-size: 18px;
+        }
+
+        .logo-text {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-2);
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .nav-section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-3);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 8px 12px 4px;
+            margin-top: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-2);
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: rgba(124, 58, 237, 0.2);
+            color: #c4b5fd;
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: var(--green-dim);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 10px;
+            font-size: 0.78rem;
+            color: var(--green);
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        /* ── MAIN CONTENT ────────────────────────────────────────── */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 64px;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 32px;
+            background: var(--surface);
+            flex-shrink: 0;
         }
 
-        header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(to right, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .topbar-left h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
         }
 
-        .status {
+        .topbar-left p {
+            font-size: 0.75rem;
+            color: var(--text-2);
+            margin-top: 1px;
+        }
+
+        .topbar-right {
             display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            color: var(--text-dim);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #22c55e;
-        }
-
-        #chat-window {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto;
-            scroll-behavior: smooth;
-        }
-
-        #chat-window::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        #chat-window::-webkit-scrollbar-thumb {
-            background: var(--border);
+            padding: 8px 18px;
             border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
         }
 
-        .message {
-            margin-bottom: 24px;
-            max-width: 80%;
-            animation: fadeIn 0.3s ease-out forwards;
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 14px var(--primary-glow);
         }
 
-        @keyframes fadeIn {
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: var(--surface-2);
+            color: var(--text-2);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        /* ── PAGES ───────────────────────────────────────────────── */
+        .page {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            gap: 24px;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* ── DASHBOARD STATS ─────────────────────────────────────── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0.4;
+        }
+
+        .stat-card.purple::before {
+            background: var(--primary);
+        }
+
+        .stat-card.green::before {
+            background: var(--green);
+        }
+
+        .stat-card.yellow::before {
+            background: var(--yellow);
+        }
+
+        .stat-card.blue::before {
+            background: var(--blue);
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-2);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .stat-sub {
+            font-size: 0.75rem;
+            color: var(--text-2);
+            margin-top: 4px;
+        }
+
+        /* ── SECTION HEADER ──────────────────────────────────────── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* ── TASK LIST ───────────────────────────────────────────── */
+        .tasks-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .task-card:hover {
+            border-color: var(--border-hover);
+            background: var(--surface-2);
+            transform: translateX(2px);
+        }
+
+        .task-check {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid var(--border-hover);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .task-check.done {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        .task-check.done::after {
+            content: '✓';
+            font-size: 11px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .task-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .task-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .task-title.done-text {
+            text-decoration: line-through;
+            color: var(--text-2);
+        }
+
+        .task-meta {
+            font-size: 0.76rem;
+            color: var(--text-2);
+            margin-top: 3px;
+        }
+
+        .task-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .badge-gym {
+            background: var(--purple-dim, rgba(124, 58, 237, 0.18));
+            color: #a78bfa;
+        }
+
+        .badge-work {
+            background: var(--blue-dim);
+            color: #60a5fa;
+        }
+
+        .badge-health {
+            background: var(--green-dim);
+            color: #34d399;
+        }
+
+        .badge-personal {
+            background: var(--yellow-dim);
+            color: #fbbf24;
+        }
+
+        .badge-general {
+            background: var(--surface-3);
+            color: var(--text-2);
+        }
+
+        .task-time {
+            font-size: 0.75rem;
+            color: var(--text-3);
+            flex-shrink: 0;
+        }
+
+        .task-del {
+            background: none;
+            border: none;
+            color: var(--text-3);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            box-shadow: none;
+            height: auto;
+            width: auto;
+        }
+
+        .task-del:hover {
+            color: var(--red);
+            background: var(--red-dim);
+        }
+
+        /* ── MODAL ───────────────────────────────────────────────── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border-hover);
+            border-radius: 24px;
+            padding: 32px;
+            width: 500px;
+            max-width: 95vw;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: scale(0.95) translateY(10px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) translateY(0);
             }
         }
 
-        .message.user {
-            margin-left: auto;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
         }
 
-        .bubble {
-            padding: 16px 20px;
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text-2);
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: none;
+        }
+
+        .modal-close:hover {
+            background: var(--surface-3);
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-2);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--primary-light);
+        }
+
+        .form-select option {
+            background: var(--surface-2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .cat-btn {
+            padding: 8px 4px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: var(--surface-2);
+            color: var(--text-2);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .cat-btn:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
+
+        .cat-btn.selected {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.2);
+            color: #c4b5fd;
+        }
+
+        /* ── CHAT PAGE ───────────────────────────────────────────── */
+        .chat-layout {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-right: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 4px;
+        }
+
+        .msg {
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+            animation: msgIn 0.3s ease;
+        }
+
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+
+        .msg.user {
+            align-self: flex-end;
+        }
+
+        .msg.bot {
+            align-self: flex-start;
+        }
+
+        .msg-bubble {
+            padding: 14px 20px;
             border-radius: 18px;
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.65;
         }
 
-        .user .bubble {
-            background: var(--primary);
+        .msg.user .msg-bubble {
+            background: linear-gradient(135deg, var(--primary), #4f46e5);
             border-bottom-right-radius: 4px;
+            color: #fff;
         }
 
-        .bot .bubble {
-            background: var(--card);
+        .msg.bot .msg-bubble {
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-bottom-left-radius: 4px;
+            border-top-left-radius: 4px;
+            color: #e2e8f0;
         }
 
-        .sources {
-            margin-top: 12px;
-            font-size: 12px;
-            color: var(--text-dim);
+        .msg.bot .msg-bubble p {
+            margin-bottom: 8px;
         }
 
-        .source-tag {
-            display: inline-block;
-            padding: 2px 8px;
-            background: rgba(255, 255, 255, 0.05);
+        .msg.bot .msg-bubble p:last-child {
+            margin-bottom: 0;
+        }
+
+        .msg.bot .msg-bubble strong {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .msg.bot .msg-bubble ul,
+        .msg.bot .msg-bubble ol {
+            margin: 6px 0 10px 20px;
+            padding: 0;
+        }
+
+        .msg.bot .msg-bubble li {
+            margin-bottom: 5px;
+            line-height: 1.55;
+        }
+
+        .msg.bot .msg-bubble li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Downsize any headers the AI leaks into chat */
+        .msg.bot .msg-bubble h1,
+        .msg.bot .msg-bubble h2,
+        .msg.bot .msg-bubble h3,
+        .msg.bot .msg-bubble h4 {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin: 12px 0 4px;
+            letter-spacing: 0.2px;
+        }
+
+        .msg.bot .msg-bubble code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 0.82em;
+        }
+
+        .msg.bot .msg-bubble pre {
+            background: rgba(0,0,0,0.3);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            margin-right: 6px;
+            border-radius: 8px;
+            padding: 12px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-size: 0.82em;
         }
 
-        footer {
-            padding: 24px 32px;
+        .msg.bot .msg-bubble blockquote {
+            border-left: 3px solid var(--primary);
+            margin: 6px 0;
+            padding: 4px 12px;
+            color: var(--text-2);
+            font-style: italic;
+        }
+
+        .msg.bot .msg-bubble hr {
+            border: none;
             border-top: 1px solid var(--border);
+            margin: 10px 0;
         }
 
-        .input-group {
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(124, 58, 237, 0.15);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            color: #c4b5fd;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .spinner {
+            width: 10px;
+            height: 10px;
+            border: 2px solid rgba(196, 181, 253, 0.3);
+            border-top-color: #c4b5fd;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chat-input-bar {
             display: flex;
             gap: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px;
-            border-radius: 16px;
+            background: var(--surface);
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            border-radius: 16px;
+            padding: 8px 8px 8px 20px;
+            align-items: center;
+            transition: border-color 0.2s;
         }
 
-        .input-group:focus-within {
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.08);
+        .chat-input-bar:focus-within {
+            border-color: rgba(124, 58, 237, 0.5);
         }
 
-        input {
+        .chat-input-bar input {
             flex: 1;
             background: transparent;
             border: none;
-            color: var(--text);
-            padding: 12px 16px;
-            font-size: 16px;
             outline: none;
+            color: var(--text);
+            font-size: 0.925rem;
+            font-family: 'Inter', sans-serif;
         }
 
-        button {
+        .chat-input-bar input::placeholder {
+            color: var(--text-3);
+        }
+
+        .send-btn {
             background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 24px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
-            font-weight: 600;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-light);
+            transform: scale(1.05);
+        }
+
+        /* ── EMPTY STATE ─────────────────────────────────────────── */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+            color: var(--text-3);
+            gap: 12px;
+        }
+
+        .empty-state span {
+            font-size: 48px;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+        }
+
+        /* ── QUICK ACTIONS ───────────────────────────────────────── */
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .quick-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
-        button:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
+        .quick-card:hover {
+            border-color: var(--border-hover);
+            background: var(--surface-2);
+            transform: translateY(-2px);
         }
 
-        button:active {
-            transform: translateY(0);
+        .quick-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
         }
 
-        .loader {
-            display: inline-flex;
-            gap: 4px;
-            padding: 10px;
+        .quick-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-2);
         }
 
-        .loader span {
-            width: 6px;
-            height: 6px;
-            background: var(--text-dim);
+        /* scrollbar for pages */
+        .page::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .page::-webkit-scrollbar-thumb {
+            background: var(--surface-3);
+            border-radius: 4px;
+        }
+
+        /* ── TOAST NOTIFICATION ────────────────────────────────────── */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background: var(--surface);
+            border: 1px solid var(--primary);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 12px;
+            width: 320px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast-msg {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+
+        .toast-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-3);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* schedule view */
+        .schedule-date-header {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin: 24px 0 16px 0;
+            padding-left: 4px;
+        }
+
+        .schedule-timeline {
+            border-left: 2px solid var(--border);
+            margin-left: 20px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .schedule-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--surface-3);
+            border: 2px solid var(--primary);
             border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
+            position: absolute;
+            left: -26px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
-        .loader span:nth-child(1) {
-            animation-delay: -0.32s;
+        .schedule-time {
+            width: 60px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-2);
+            text-align: right;
+            margin-right: 16px;
         }
 
-        .loader span:nth-child(2) {
-            animation-delay: -0.16s;
+        .schedule-info {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 12px;
+            flex-grow: 1;
+            transition: transform 0.2s;
         }
 
-        @keyframes bounce {
+        .schedule-item:hover .schedule-info {
+            transform: translateX(4px);
+            border-color: var(--primary-light);
+        }
 
-            0%,
-            80%,
-            100% {
-                transform: scale(0);
-            }
+        .schedule-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
 
-            40% {
-                transform: scale(1.0);
-            }
+        .schedule-cat {
+            font-size: 0.72rem;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        .done-item .schedule-info {
+            opacity: 0.5;
+            background: var(--surface-1);
         }
     </style>
 </head>
 
 <body>
+    <div class="toast-container" id="toast-container"></div>
 
-    <div class="container">
-        <header>
-            <div>
-                <h1>Libertum AI</h1>
-                <p id="sub-header" style="font-size: 12px; color: var(--text-dim);">Trained on whitepapers and docs</p>
+    <!-- ── SIDEBAR ─────────────────────────────────────── -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            <div class="logo-text">
+                Nexus AI
+                <span>Life Assistant</span>
             </div>
-            <div class="status">
-                <div class="status-dot"></div>
-                <span>Server Online</span>
-            </div>
-        </header>
+        </div>
 
-        <div id="chat-window">
-            <div class="message bot">
-                <div class="bubble">
-                    Hello! I am your Libertum assistant. How can I help you today?
+        <div class="nav-section-label">Main</div>
+        <div class="nav-item active" data-page="dashboard">
+            <span class="nav-icon">🏠</span> Dashboard
+        </div>
+        <div class="nav-item" data-page="tasks">
+            <span class="nav-icon">✅</span> My Tasks
+        </div>
+        <div class="nav-item" data-page="schedule">
+            <span class="nav-icon">📅</span> Schedule
+        </div>
+
+        <div class="nav-section-label">Assistant</div>
+        <div class="nav-item" data-page="chat">
+            <span class="nav-icon">🤖</span> Ask Nexus
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="status-pill">
+                <div class="pulse-dot"></div>
+                Server Online · Port 3000
+            </div>
+        </div>
+    </aside>
+
+    <!-- ── MAIN ────────────────────────────────────────── -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <h2 id="page-title">Dashboard</h2>
+                <p id="page-subtitle"></p>
+            </div>
+            <div class="topbar-right">
+                <button class="btn btn-ghost" id="refresh-btn">↻ Refresh</button>
+                <button class="btn btn-primary" id="create-task-btn">＋ New Task</button>
+            </div>
+        </div>
+
+        <!-- ── PAGE: DASHBOARD ─────────────── -->
+        <div class="page active" id="page-dashboard">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card purple">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-label">Total Tasks</div>
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-sub">All time</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-value" id="stat-done">0</div>
+                    <div class="stat-sub">Tasks done</div>
+                </div>
+                <div class="stat-card yellow">
+                    <div class="stat-icon">⏳</div>
+                    <div class="stat-label">Pending</div>
+                    <div class="stat-value" id="stat-pending">0</div>
+                    <div class="stat-sub">Awaiting action</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-icon">🔔</div>
+                    <div class="stat-label">Notified</div>
+                    <div class="stat-value" id="stat-notified">0</div>
+                    <div class="stat-sub">Push sent</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-header">
+                <span class="section-title">Quick Actions</span>
+            </div>
+            <div class="quick-grid">
+                <div class="quick-card" onclick="openModal('gym')">
+                    <div class="quick-icon">🏋️</div>
+                    <div class="quick-label">Schedule Gym</div>
+                </div>
+                <div class="quick-card" onclick="openModal('work')">
+                    <div class="quick-icon">💼</div>
+                    <div class="quick-label">Add Meeting</div>
+                </div>
+                <div class="quick-card" onclick="openModal('health')">
+                    <div class="quick-icon">❤️‍🔥</div>
+                    <div class="quick-label">Health Reminder</div>
+                </div>
+                <div class="quick-card" onclick="openModal('personal')">
+                    <div class="quick-icon">🎯</div>
+                    <div class="quick-label">Personal Goal</div>
+                </div>
+                <div class="quick-card" onclick="switchPage('chat')">
+                    <div class="quick-icon">🤖</div>
+                    <div class="quick-label">Ask AI</div>
+                </div>
+                <div class="quick-card" onclick="openModal('general')">
+                    <div class="quick-icon">📝</div>
+                    <div class="quick-label">Custom Task</div>
+                </div>
+            </div>
+
+            <!-- Upcoming tasks -->
+            <div class="section-header">
+                <span class="section-title">Upcoming Tasks</span>
+            </div>
+            <div class="tasks-container" id="upcoming-list">
+                <div class="empty-state"><span>📭</span>
+                    <p>No tasks yet — create one above!</p>
                 </div>
             </div>
         </div>
 
-        <footer>
-            <form id="chat-form">
-                <div class="input-group">
-                    <input type="text" id="user-input"
-                        placeholder="Ask about Libertum, Bonding Curves, or anything in your docs..."
-                        autocomplete="off">
-                    <button type="submit">Send</button>
+        <!-- ── PAGE: TASKS ─────────────────── -->
+        <div class="page" id="page-tasks">
+            <div class="section-header">
+                <span class="section-title">All My Tasks</span>
+                <div style="display:flex;gap:8px">
+                    <button class="btn btn-ghost" onclick="filterTasks('all')" id="filter-all"
+                        style="padding:6px 14px;font-size:0.8rem">All</button>
+                    <button class="btn btn-ghost" onclick="filterTasks('pending')" id="filter-pending"
+                        style="padding:6px 14px;font-size:0.8rem">Pending</button>
+                    <button class="btn btn-ghost" onclick="filterTasks('done')" id="filter-done"
+                        style="padding:6px 14px;font-size:0.8rem">Done</button>
                 </div>
-            </form>
-        </footer>
+            </div>
+            <div class="tasks-container" id="all-tasks-list">
+                <div class="empty-state"><span>📭</span>
+                    <p>No tasks yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PAGE: SCHEDULE ──────────────── -->
+        <div class="page" id="page-schedule">
+            <div class="section-header">
+                <span class="section-title">My Schedule</span>
+            </div>
+            <div class="tasks-container" id="schedule-list">
+                <div class="empty-state"><span>📅</span>
+                    <p>No scheduled tasks yet.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PAGE: AI CHAT ───────────────── -->
+        <div class="page" id="page-chat" style="padding:24px 32px;overflow:hidden;">
+            <div class="chat-layout">
+                <div class="chat-messages" id="chat-messages">
+                    <div class="msg bot">
+                        <div class="msg-bubble" id="welcome-msg">
+                            <strong>Nexus online.</strong><br>
+                            Tell me what you need — schedule a task, ask a question, recall something from your docs, or just think out loud. I'm tracking your context and will remember what matters.
+                        </div>
+                    </div>
+                </div>
+                <form id="chat-form">
+                    <div class="chat-input-bar">
+                        <input type="text" id="chat-input"
+                            placeholder="Schedule a gym session, ask a question, or search your docs..."
+                            autocomplete="off">
+                        <button type="submit" class="send-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODAL: CREATE TASK ─────────────── -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Create New Task</span>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Task Title *</label>
+                <input class="form-input" id="task-title" placeholder="e.g. Morning gym session, Team standup..."
+                    type="text">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="form-textarea" id="task-desc"
+                    placeholder="Extra details, what to bring, goals..."></textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Strategic Time</label>
+                <input type="datetime-local" class="form-input" id="task-time">
+                <small style="color:#94a3b8; font-size:0.7rem; margin-top:4px; display:block">Leave empty to let Nexus
+                    suggest the optimal time.</small>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Category</label>
+                <div class="category-grid">
+                    <div class="cat-btn selected" data-cat="gym" onclick="selectCat(this)">🏋️ Gym</div>
+                    <div class="cat-btn" data-cat="work" onclick="selectCat(this)">💼 Work</div>
+                    <div class="cat-btn" data-cat="health" onclick="selectCat(this)">❤️ Health</div>
+                    <div class="cat-btn" data-cat="personal" onclick="selectCat(this)">🎯 Personal</div>
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr; gap:12px;">
+                <div class="form-group">
+                    <label class="form-label">Repeat (Frequency)</label>
+                    <input class="form-input" id="task-frequency" type="number" value="1" min="1">
+                </div>
+            </div>
+            <div id="task-modal-error" style="
+                display:none;
+                background:var(--red-dim);
+                border:1px solid rgba(239,68,68,0.3);
+                color:#f87171;
+                border-radius:10px;
+                padding:10px 14px;
+                font-size:0.82rem;
+                margin-bottom:12px;
+            "></div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px"
+                onclick="submitTask()">
+                Schedule Task →
+            </button>
+        </div>
+    </div>
+
+    <!-- ── MODAL: CONFLICT ALERT ────────────────── -->
+    <div class="modal-overlay" id="conflict-modal">
+        <div class="modal" style="width:480px;max-width:95vw;">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-title" style="color:var(--yellow)">⚡ Scheduling Conflict</span>
+                    <p style="font-size:0.75rem;color:var(--text-2);margin-top:4px">Nexus detected an overlap</p>
+                </div>
+                <button class="modal-close" onclick="closeConflictModal()">✕</button>
+            </div>
+
+            <!-- Conflict info pill -->
+            <div id="conflict-info-pill" style="
+                background:var(--yellow-dim);
+                border:1px solid rgba(245,158,11,0.3);
+                border-radius:10px;
+                padding:12px 16px;
+                margin-bottom:16px;
+                font-size:0.85rem;
+                color:var(--yellow);
+            "></div>
+
+            <!-- AI suggestion bubble -->
+            <div style="
+                background:var(--surface-2);
+                border:1px solid var(--border);
+                border-left:3px solid var(--primary);
+                border-radius:10px;
+                padding:14px 16px;
+                font-size:0.88rem;
+                line-height:1.6;
+                color:var(--text);
+                margin-bottom:8px;
+            ">
+                <div style="font-size:0.7rem;font-weight:700;color:var(--primary-light);letter-spacing:0.5px;margin-bottom:6px">NEXUS SUGGESTS</div>
+                <div id="conflict-suggestion"></div>
+            </div>
+
+            <!-- Suggested time display -->
+            <div id="conflict-alt-time-display" style="
+                font-size:0.78rem;
+                color:var(--text-2);
+                text-align:center;
+                padding:8px 0 20px;
+            "></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <button id="force-schedule-btn" class="btn btn-ghost" style="justify-content:center;padding:12px" onclick="forceScheduleTask()">
+                    Schedule Anyway
+                </button>
+                <button class="btn btn-primary" id="use-alt-btn" style="justify-content:center;padding:12px" onclick="useAltTime()">
+                    Use Suggested Time →
+                </button>
+            </div>
+            <div id="conflict-modal-error" style="display:none;color:#ef4444;font-size:0.78rem;text-align:center;padding:10px 0 0;"></div>
+        </div>
+    </div>
+
+    <!-- ── MODAL: STRATEGIC BRIEFING ─────────────── -->
+    <div class="modal-overlay" id="briefing-modal">
+        <div class="modal" style="width: 500px; max-width: 90vw;">
+            <div class="modal-header">
+                <div>
+                    <span class="modal-title" id="briefing-title">Task Briefing</span>
+                    <p style="font-size:0.75rem; color:var(--text-2); margin-top:4px">Generated by Nexus AI</p>
+                </div>
+                <button class="modal-close" onclick="closeBriefingModal()">✕</button>
+            </div>
+            <div id="briefing-content"
+                style="font-size:0.9rem; line-height:1.6; color:var(--text); max-height: 400px; overflow-y: auto; padding-right: 10px;">
+                <!-- Content injected here -->
+            </div>
+            <button class="btn btn-primary" style="width:100%; justify-content:center; padding:12px; margin-top:24px"
+                onclick="closeBriefingModal()">
+                Dismiss Briefing
+            </button>
+        </div>
     </div>
 
     <script>
-        const chatWindow = document.getElementById('chat-window');
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
+        const USER_ID = 'default';
+        let currentFilter = 'all';
+        let allTasks = [];
+        let selectedCategory = 'gym';
 
-        // PERSISTENT SESSION ID: Check if we already have one, otherwise create it
-        let sessionId = localStorage.getItem('libertum_session_id');
-        if (!sessionId) {
-            sessionId = 'session_' + Math.random().toString(36).substr(2, 9);
-            localStorage.setItem('libertum_session_id', sessionId);
+        // ── Navigation ───────────────────────────────────────────────────────
+        const pageTitles = {
+            dashboard: ['Dashboard', null], // null = show live date
+            tasks: ['My Tasks', 'View and manage all tasks'],
+            schedule: ['Schedule', 'Your upcoming events by time'],
+            chat: ['Ask Nexus', 'Strategic inquiries & advisor consultation'],
+        };
+
+        function getLiveDate() {
+            return new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         }
 
-        function addMessage(text, isUser = false, sources = []) {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+        function switchPage(name) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + name).classList.add('active');
+            document.querySelector(`[data-page="${name}"]`).classList.add('active');
+            document.getElementById('page-title').textContent = pageTitles[name][0];
+            document.getElementById('page-subtitle').textContent = pageTitles[name][1] ?? getLiveDate();
+            if (name !== 'chat') loadTasks();
+        }
 
-            let sourceHtml = '';
-            if (sources && sources.length > 0) {
-                const uniqueSources = [...new Set(sources.map(s => s.source))];
-                sourceHtml = `<div class="sources">Sources: ${uniqueSources.map(s => `<span class="source-tag">${s}</span>`).join('')}</div>`;
+        document.querySelectorAll('.nav-item').forEach(el => {
+            el.addEventListener('click', () => switchPage(el.dataset.page));
+        });
+
+        // ── Load Tasks ───────────────────────────────────────────────────────
+        async function loadTasks() {
+            try {
+                const res = await fetch(`/api/tasks/${USER_ID}`);
+                const data = await res.json();
+                allTasks = data.tasks || [];
+                renderStats();
+                renderUpcoming();
+                renderAllTasks();
+                renderSchedule();
+            } catch (e) {
+                console.error('Failed to load tasks', e);
+            }
+        }
+
+        function renderStats() {
+            document.getElementById('stat-total').textContent = allTasks.length;
+            document.getElementById('stat-done').textContent = allTasks.filter(t => t.status === 'done').length;
+            document.getElementById('stat-pending').textContent = allTasks.filter(t => t.status === 'pending').length;
+            document.getElementById('stat-notified').textContent = allTasks.filter(t => t.status === 'notified').length;
+        }
+
+        function formatTime(timeStr) {
+            try {
+                const d = new Date(timeStr);
+                if (isNaN(d)) return timeStr;
+                return d.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            } catch { return timeStr; }
+        }
+
+        function priorityBadge(level) {
+            const map = {
+                high: ['#ef4444', '🔥 STRATEGIC'],
+                medium: ['#3b82f6', '⚡ OPERATIONAL'],
+                low: ['#94a3b8', '🧊 FLEXIBLE'],
+            };
+            const [color, label] = map[level] || map.medium;
+            return `<span style="font-size:0.65rem; font-weight:800; color:${color}; margin-right:8px; letter-spacing:0.5px">${label}</span>`;
+        }
+
+        function categoryBadge(cat) {
+            const map = {
+                gym: ['badge-gym', '🏋️ Gym'],
+                work: ['badge-work', '💼 Work'],
+                health: ['badge-health', '❤️ Health'],
+                personal: ['badge-personal', '🎯 Personal'],
+                general: ['badge-general', '📝 General'],
+            };
+            const [cls, label] = map[cat] || map.general;
+            return `<span class="task-badge ${cls}">${label}</span>`;
+        }
+
+        function buildTaskCard(task) {
+            const isDone = task.status === 'done';
+            return `
+            <div class="task-card" id="task-${task.id}">
+                <div class="task-check ${isDone ? 'done' : ''}" onclick="toggleTask('${task.id}', '${isDone ? 'pending' : 'done'}')"></div>
+                <div class="task-info">
+                    <div class="task-title ${isDone ? 'done-text' : ''}">${priorityBadge(task.priority)}${escHtml(task.title)}${(task.remaining > 1) ? `<span style="font-size:0.65rem;font-weight:700;color:var(--primary-light);margin-left:8px;opacity:0.8">⟳ ${task.remaining}x left</span>` : ''}</div>
+                    ${task.description ? `<div class="task-meta">${escHtml(task.description.substring(0, 80))}... <a href="#" style="color:var(--primary-light); text-decoration:none; font-weight:600" onclick="viewStrategicBriefing('${task.id}')">View Briefing</a></div>` : ''}
+                </div>
+                ${categoryBadge(task.category || 'general')}
+                <div class="task-time">${formatTime(task.time)}</div>
+                <button class="task-del" onclick="deleteTask('${task.id}')">🗑</button>
+            </div>
+        `;
+        }
+        function renderUpcoming() {
+            const upcoming = [...allTasks]
+                .filter(t => t.status !== 'done')
+                .sort((a, b) => new Date(a.time) - new Date(b.time))
+                .slice(0, 5);
+            const el = document.getElementById('upcoming-list');
+            el.innerHTML = upcoming.length
+                ? upcoming.map(buildTaskCard).join('')
+                : '<div class="empty-state"><span>📭</span><p>No upcoming tasks! Create one above.</p></div>';
+        }
+
+        function renderAllTasks() {
+            let filtered = allTasks;
+            if (currentFilter === 'pending') filtered = allTasks.filter(t => t.status === 'pending' || t.status === 'reminded');
+            if (currentFilter === 'done') filtered = allTasks.filter(t => t.status === 'done');
+            filtered = [...filtered].sort((a, b) => new Date(a.time) - new Date(b.time));
+            const el = document.getElementById('all-tasks-list');
+            el.innerHTML = filtered.length
+                ? filtered.map(buildTaskCard).join('')
+                : '<div class="empty-state"><span>📭</span><p>No tasks found.</p></div>';
+        }
+
+        function buildScheduleItem(task) {
+            const isDone = task.status === 'done';
+            const timeStr = new Date(task.time).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            return `
+            <div class="schedule-item ${isDone ? 'done-item' : ''}">
+                <div class="schedule-time">${timeStr}</div>
+                <div class="schedule-dot"></div>
+                <div class="schedule-info">
+                    <div class="schedule-title">${escHtml(task.title)}</div>
+                    <div class="schedule-cat">${task.category || 'general'}</div>
+                </div>
+            </div>
+        `;
+        }
+
+        function renderSchedule() {
+            const sorted = [...allTasks].sort((a, b) => new Date(a.time) - new Date(b.time));
+            const el = document.getElementById('schedule-list');
+
+            if (!sorted.length) {
+                el.innerHTML = '<div class="empty-state"><span>📅</span><p>No events scheduled yet.</p></div>';
+                return;
             }
 
-            msgDiv.innerHTML = `
-                <div class="bubble">${text}</div>
-                ${sourceHtml}
-            `;
-            chatWindow.appendChild(msgDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+            // Group by date
+            const groups = {};
+            sorted.forEach(t => {
+                const date = new Date(t.time).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+                if (!groups[date]) groups[date] = [];
+                groups[date].push(t);
+            });
+
+            el.innerHTML = Object.entries(groups).map(([date, tasks]) => `
+                <div class="schedule-date-header">${date}</div>
+                <div class="schedule-timeline">
+                    ${tasks.map(buildScheduleItem).join('')}
+                </div>
+            `).join('');
         }
 
-        function addLoader() {
-            const loaderDiv = document.createElement('div');
-            loaderDiv.className = 'message bot loading';
-            loaderDiv.innerHTML = '<div class="bubble"><div class="loader"><span></span><span></span><span></span></div></div>';
-            chatWindow.appendChild(loaderDiv);
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-            return loaderDiv;
+        function filterTasks(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('[id^="filter-"]').forEach(b => b.classList.remove('btn-primary'));
+            document.getElementById('filter-' + filter)?.classList.add('btn-primary');
+            renderAllTasks();
         }
+
+        async function toggleTask(taskId, newStatus) {
+            try {
+                await fetch(`/api/tasks/${USER_ID}/${taskId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+                loadTasks();
+            } catch (e) { console.error(e); }
+        }
+
+        async function deleteTask(taskId) {
+            try {
+                await fetch(`/api/tasks/${USER_ID}/${taskId}`, { method: 'DELETE' });
+                loadTasks();
+            } catch (e) { console.error(e); }
+        }
+
+        function openModal(cat = 'general') {
+            selectedCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => {
+                b.classList.toggle('selected', b.dataset.cat === cat);
+            });
+            document.getElementById('task-time').value = '';
+            document.getElementById('task-title').value = '';
+            document.getElementById('task-desc').value = '';
+            document.getElementById('task-modal').classList.add('open');
+            setTimeout(() => document.getElementById('task-title').focus(), 100);
+        }
+
+        function closeModal() {
+            document.getElementById('task-modal').classList.remove('open');
+        }
+
+        function selectCat(el) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedCategory = el.dataset.cat;
+        }
+
+        function viewStrategicBriefing(taskId) {
+            const task = allTasks.find(t => t.id === taskId);
+            if (!task) return;
+            document.getElementById('briefing-title').textContent = task.title;
+            // Convert line breaks to <br>
+            document.getElementById('briefing-content').innerHTML = task.description.replace(/\n/g, '<br>');
+            document.getElementById('briefing-modal').classList.add('open');
+        }
+
+        function closeBriefingModal() {
+            document.getElementById('briefing-modal').classList.remove('open');
+        }
+
+        // ── Pending task state (for conflict resolution) ─────────────────────
+        let _pendingTask = null;
+        let _conflictAltTime = null;
+
+        function _getTaskFormData() {
+            return {
+                userId: USER_ID,
+                title: document.getElementById('task-title').value.trim(),
+                description: document.getElementById('task-desc').value.trim(),
+                time: document.getElementById('task-time').value
+                    ? new Date(document.getElementById('task-time').value).toISOString()
+                    : null,
+                category: selectedCategory,
+                frequency: parseInt(document.getElementById('task-frequency').value) || 1,
+            };
+        }
+
+        function _setModalLoading(text) {
+            const btn = document.querySelector('#task-modal .btn-primary');
+            btn.innerHTML = `<div class="spinner" style="margin-right:8px;display:inline-block"></div> ${text}`;
+            btn.disabled = true;
+            return btn;
+        }
+
+        function _resetModalBtn(btn) {
+            btn.innerHTML = 'Schedule Task →';
+            btn.disabled = false;
+        }
+
+        async function submitTask() {
+            const data = _getTaskFormData();
+            if (!data.title) {
+                document.getElementById('task-title').style.borderColor = '#ef4444';
+                setTimeout(() => document.getElementById('task-title').style.borderColor = '', 1500);
+                return;
+            }
+
+            const btn = _setModalLoading('Checking schedule...');
+
+            // Step 1: conflict preview — fail silently if anything goes wrong
+            if (data.time) {
+                try {
+                    const previewRes = await fetch('/api/tasks/preview', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId: data.userId, title: data.title, time: data.time })
+                    });
+                    if (previewRes.ok) {
+                        const preview = await previewRes.json();
+                        if (preview.conflict) {
+                            closeModal(); // close task modal cleanly before showing conflict modal
+                            _pendingTask = data;
+                            _conflictAltTime = preview.suggestedTime || null;
+                            showConflictModal(preview);
+                            return;
+                        }
+                    }
+                } catch (e) {
+                    // Preview unavailable — proceed to schedule normally, no alert
+                    console.warn('[PREVIEW] Skipped:', e.message);
+                }
+            }
+
+            // Step 2: no conflict (or preview skipped) — schedule directly
+            await _doScheduleTask(data, btn);
+        }
+
+        async function _doScheduleTask(data, btn) {
+            if (btn) btn.innerHTML = `<div class="spinner" style="margin-right:8px;display:inline-block"></div> Analyzing strategy...`;
+            try {
+                const res = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!res.ok) {
+                    const body = await res.json().catch(() => ({}));
+                    throw new Error(body.error || `Server returned ${res.status}`);
+                }
+                closeModal();
+                await loadTasks();
+            } catch (e) {
+                console.error('[SCHEDULE]', e);
+                // Show inline error inside the modal instead of blocking alert
+                const errEl = document.getElementById('task-modal-error');
+                if (errEl) {
+                    errEl.textContent = `Could not schedule: ${e.message}`;
+                    errEl.style.display = 'block';
+                    setTimeout(() => { errEl.style.display = 'none'; }, 4000);
+                }
+            } finally {
+                const b = document.querySelector('#task-modal .btn-primary');
+                if (b) _resetModalBtn(b);
+            }
+        }
+
+        // ── Conflict modal ────────────────────────────────────────────────────
+        function showConflictModal(preview) {
+            document.getElementById('conflict-info-pill').innerHTML =
+                `🗓 <strong>${escHtml(preview.conflictWith)}</strong> is already at <strong>${escHtml(preview.conflictTime)}</strong>`;
+
+            document.getElementById('conflict-suggestion').textContent = preview.suggestion;
+
+            const altDisplay = document.getElementById('conflict-alt-time-display');
+            const useBtn = document.getElementById('use-alt-btn');
+            if (preview.suggestedTimeIST) {
+                altDisplay.innerHTML = `Suggested slot: <strong style="color:var(--primary-light)">${escHtml(preview.suggestedTimeIST)}</strong>`;
+            } else {
+                altDisplay.textContent = '';
+            }
+            useBtn.disabled = !preview.suggestedTime;
+            useBtn.style.opacity = preview.suggestedTime ? '1' : '0.5';
+
+            document.getElementById('conflict-modal').classList.add('open');
+        }
+
+        function closeConflictModal() {
+            document.getElementById('conflict-modal').classList.remove('open');
+        }
+
+        async function _scheduleFromConflictModal(taskData, triggerBtn, triggerLabel) {
+            const errEl = document.getElementById('conflict-modal-error');
+            const useBtn = document.getElementById('use-alt-btn');
+            const forceBtn = document.getElementById('force-schedule-btn');
+
+            // Loading state: disable both buttons, spinner on the one clicked
+            useBtn.disabled = true;
+            forceBtn.disabled = true;
+            triggerBtn.innerHTML = `<div class="spinner" style="margin-right:8px;display:inline-block"></div> Scheduling...`;
+            if (errEl) errEl.style.display = 'none';
+
+            try {
+                const res = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(taskData)
+                });
+                if (!res.ok) {
+                    const body = await res.json().catch(() => ({}));
+                    throw new Error(body.error || `Server returned ${res.status}`);
+                }
+                // Success — close conflict modal and refresh task list
+                closeConflictModal();
+                _pendingTask = null;
+                _conflictAltTime = null;
+                await loadTasks();
+            } catch (e) {
+                console.error('[CONFLICT SCHEDULE]', e);
+                // Show error inside the conflict modal, re-enable buttons
+                if (errEl) {
+                    errEl.textContent = `Could not schedule: ${e.message}`;
+                    errEl.style.display = 'block';
+                }
+                triggerBtn.innerHTML = triggerLabel;
+                useBtn.disabled = !_conflictAltTime;
+                forceBtn.disabled = false;
+            }
+        }
+
+        async function forceScheduleTask() {
+            if (!_pendingTask) return;
+            const btn = document.getElementById('force-schedule-btn');
+            await _scheduleFromConflictModal({ ..._pendingTask }, btn, 'Schedule Anyway');
+        }
+
+        async function useAltTime() {
+            if (!_pendingTask) return;
+            const btn = document.getElementById('use-alt-btn');
+            const taskData = { ..._pendingTask };
+            if (_conflictAltTime) taskData.time = _conflictAltTime;
+            await _scheduleFromConflictModal(taskData, btn, 'Use Suggested Time →');
+        }
+
+        // ── Create task btn ──────────────────────────────────────────────────
+        document.getElementById('create-task-btn').addEventListener('click', () => openModal());
+        document.getElementById('refresh-btn').addEventListener('click', loadTasks);
+
+        // Close modals on overlay click
+        document.getElementById('task-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('task-modal')) closeModal();
+        });
+        document.getElementById('conflict-modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('conflict-modal')) closeConflictModal();
+        });
+
+        // ── AI Chat ──────────────────────────────────────────────────────────
+        let sessionId = localStorage.getItem('nexus_session') ||
+            (() => { const id = 's_' + Math.random().toString(36).slice(2, 9); localStorage.setItem('nexus_session', id); return id; })();
+
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+
+        function scrollChat() { chatMessages.scrollTop = chatMessages.scrollHeight; }
 
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const message = userInput.value.trim();
-            if (!message) return;
+            const msg = chatInput.value.trim();
+            if (!msg) return;
 
-            addMessage(message, true);
-            userInput.value = '';
+            // User message
+            const userEl = document.createElement('div');
+            userEl.className = 'msg user';
+            userEl.innerHTML = `<div class="msg-bubble">${escHtml(msg)}</div>`;
+            chatMessages.appendChild(userEl);
+            chatInput.value = '';
+            scrollChat();
 
-            // Create a "Thinking..." bubble
-            const thinkingDiv = addMessage("Initializing agents...", false);
-            const contentDiv = thinkingDiv.querySelector('.message-content');
-            const statusDiv = document.createElement('div');
-            statusDiv.className = 'status-indicator';
-            statusDiv.style.fontSize = '0.8rem';
-            statusDiv.style.opacity = '0.7';
-            thinkingDiv.appendChild(statusDiv);
+            // Bot message shell
+            const botEl = document.createElement('div');
+            botEl.className = 'msg bot';
+            const badge = document.createElement('div');
+            badge.className = 'status-badge';
+            badge.innerHTML = `<div class="spinner"></div><span class="badge-txt">Connecting to Orchestrator...</span>`;
+            const bubble = document.createElement('div');
+            bubble.className = 'msg-bubble';
+            bubble.style.display = 'none';
+            botEl.appendChild(badge);
+            botEl.appendChild(bubble);
+            chatMessages.appendChild(botEl);
+            scrollChat();
 
             try {
-                const response = await fetch('http://localhost:3000/chat', {
+                const res = await fetch('/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, sessionId })
+                    body: JSON.stringify({ message: msg, sessionId })
                 });
 
-                const reader = response.body.getReader();
+                const reader = res.body.getReader();
                 const decoder = new TextDecoder();
 
                 while (true) {
                     const { done, value } = await reader.read();
                     if (done) break;
-
-                    const chunk = decoder.decode(value);
-                    const lines = chunk.split('\n');
-
+                    const lines = decoder.decode(value).split('\n');
                     for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = JSON.parse(line.substring(6));
-
+                        if (!line.startsWith('data: ')) continue;
+                        try {
+                            const data = JSON.parse(line.slice(6));
                             if (data.type === 'status') {
-                                statusDiv.innerText = `● ${data.message}`;
+                                badge.querySelector('.badge-txt').textContent = data.message;
+                                scrollChat();
                             } else if (data.type === 'final') {
-                                // Final Answer
-                                contentDiv.innerText = ''; // Clear the "init" message
-                                addMarkdownContent(contentDiv, data.answer);
-                                statusDiv.remove();
-                                thinkingDiv.classList.add('loaded');
+                                badge.remove();
+                                bubble.style.display = '';
+                                bubble.innerHTML = marked.parse(data.answer);
+                                scrollChat();
+                                loadTasks(); // refresh tasks if AI scheduled something
                             } else if (data.type === 'error') {
-                                contentDiv.innerText = "Error: " + data.message;
+                                badge.querySelector('.spinner').style.display = 'none';
+                                badge.querySelector('.badge-txt').textContent = '⚠ ' + data.message;
+                                badge.style.color = '#f87171';
                             }
-                        }
+                        } catch { }
                     }
                 }
-
-            } catch (error) {
-                contentDiv.innerText = "Error: Could not connect to server.";
+            } catch (err) {
+                badge.querySelector('.badge-txt').textContent = '⚠ Connection failed';
             }
         });
 
-        // Helper to handle markdown-like characters
-        function addMarkdownContent(container, text) {
-            container.innerText = text;
-            container.style.whiteSpace = 'pre-wrap';
+        // ── Helpers ──────────────────────────────────────────────────────────
+        function escHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
+
+        // ── Proactive Tool: Real-time Notifications ──────────────────────────
+        function showToast(title, message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <button class="toast-close" onclick="this.parentElement.remove()">✕</button>
+                <div class="toast-title">🔔 ${escHtml(title)}</div>
+                <div class="toast-msg">${escHtml(message)}</div>
+            `;
+            container.appendChild(toast);
+
+            // Auto-remove after 10 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(20px)';
+                    toast.style.transition = 'all 0.4s ease';
+                    setTimeout(() => toast.remove(), 400);
+                }
+            }, 10000);
+        }
+
+        // Connect to global push stream with auto-reconnect
+        function connectNotifications() {
+            const notificationSource = new EventSource('/notifications');
+
+            notificationSource.onmessage = (e) => {
+                try {
+                    const data = JSON.parse(e.data);
+                    if (data.type === 'task_reminder') {
+                        showToast(data.title, data.message);
+                        loadTasks();
+                    }
+                    // ignore 'hb' (heartbeat)
+                } catch (err) { }
+            };
+
+            notificationSource.onerror = () => {
+                notificationSource.close();
+                setTimeout(connectNotifications, 3000); // Reconnect in 3s
+            };
+        }
+
+        connectNotifications();
+
+        // ── Init ─────────────────────────────────────────────────────────────
+        loadTasks();
+        document.getElementById('page-subtitle').textContent = getLiveDate();
     </script>
 </body>
 

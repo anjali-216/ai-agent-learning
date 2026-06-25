@@ -27,7 +27,9 @@ async function main() {
         console.log("✅ Collection 'documents' is ready (and empty).");
     } catch (err) {
         console.error("Error creating collection:", err.message);
-    }
+    }   
 }
 
 main();
+
+

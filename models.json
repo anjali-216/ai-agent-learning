@@ -1,7 +1,4 @@
 {
-  "error": {
-    "code": 403,
-    "message": "Method doesn't allow unregistered callers (callers without established identity). Please use API Key or other form of API consumer identity to call this API.",
-    "status": "PERMISSION_DENIED"
-  }
+  "status": "synchronized",
+  "last_check": "2026-06-23T14:38:00.000Z"
 }

@@ -1,0 +1,180 @@
+{
+  "default": [
+    {
+      "id": "1782382712613",
+      "title": "party",
+      "description": "This party is a valuable opportunity to decompress, strengthen relationships, and potentially expand your network in a relaxed setting. Strategically, aim to connect with a few key individuals or simply enjoy some well-deserved downtime. Before heading out, ensure you've wrapped up any urgent tasks from your team standup, and briefly consider a few conversation topics to ease into interactions. Opt for comfortable yet stylish attire that suits the venue and allows you to move freely. There's a team standup at 4:00 PM, but that concludes well before the party, leaving you a clear window to transition. A sharp tip for tonight: actively listen and ask open-ended questions to foster genuine connections.",
+      "time": "2026-06-25T12:30:00.000Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T12:28:05.966Z"
+    },
+    {
+      "id": "1782383254157",
+      "title": "team standup",
+      "description": "Your team standup at 6:00 PM is a critical touchpoint for daily synchronization, ensuring everyone is aligned on progress, potential roadblocks, and immediate next steps. Strategic preparation involves having your key updates, any blockers, and your primary focus for the day clearly articulated. While a standup typically calls for business casual attire, please note there's a direct conflict with a party scheduled at the exact same time. You'll need to decide which event takes precedence or if one can be shifted. For effective execution, aim to be concise and direct with your updates, focusing on impact and any necessary support from the team.",
+      "time": "2026-06-25T12:30:00.000Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T12:28:05.966Z"
+    },
+    {
+      "id": "1782383374166",
+      "title": "walk break",
+      "description": "This walk break isn't just about stretching your legs; it's a strategic pause to refresh your mind and body, boosting your focus for the tasks ahead. Slip into some comfortable shoes and step away from your screen. No special preparation is needed, just be ready to disconnect for a few minutes. Your schedule is clear for this break, though be mindful of the conflict later at 6 PM IST with both a 'party' and a 'team standup' that will need your attention. Use this time to consciously clear your head; try a few minutes of mindful walking or simply observe your surroundings to fully reset.",
+      "time": "2026-06-26T10:34:00.000Z",
+      "status": "pending",
+      "priority": "medium",
+      "frequency": 2,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T10:32:16.745Z"
+    },
+    {
+      "id": "1782385211548",
+      "title": "party wwith friends",
+      "description": "Connecting with friends is vital for your well-being and strengthening your personal network, which indirectly supports your overall strategic goals. This isn't just leisure; it's an investment in your social capital. Ensure any critical tasks are wrapped up before you head out so you can fully relax and be present. Comfortable, casual attire is likely suitable. There's a conflict with your **team standup** at **6:00 PM IST** today, so I've scheduled this to start later to give you a clear transition. For maximum effectiveness, aim to be fully present; consider putting your phone away for periods to genuinely engage.",
+      "time": "2026-06-25T14:30:00.000Z",
+      "status": "pending",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "category": "general"
+    }
+  ],
+  "Anjali": [
+    {
+      "id": "1782213978258",
+      "title": "Meeting",
+      "time": "2026-06-23T11:30:00.000Z",
+      "status": "notified"
+    },
+    {
+      "id": "1782217204107",
+      "title": "Outing",
+      "description": "Outing with friends/others",
+      "time": "2026-06-23T12:25:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782217334609",
+      "title": "Alcohol Party",
+      "time": "2026-06-23T12:25:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782218375099",
+      "title": "AI Class",
+      "description": "AI Class",
+      "time": "2026-06-23T12:41:00Z",
+      "status": "notified",
+      "priority": "high",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782277542791",
+      "title": "Meeting",
+      "time": "2026-06-24T05:08:00Z",
+      "status": "notified",
+      "priority": "high",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782277834936",
+      "title": "Meeting",
+      "time": "2026-06-24T05:08:00Z",
+      "status": "notified",
+      "priority": "high",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782279285341",
+      "title": "Meeting",
+      "description": "Meeting scheduled by Anjali.",
+      "time": "2026-06-24T05:37:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782279543536",
+      "title": "Meeting",
+      "time": "2026-06-24T05:41:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782279794084",
+      "title": "Outing with friends",
+      "description": "Outing with friends.",
+      "time": "2026-06-24T05:46:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24
+    },
+    {
+      "id": "1782292726928",
+      "title": "Gym Session",
+      "description": "Gym training session focused on strength and conditioning.",
+      "time": "2026-06-24T12:00:00Z",
+      "status": "notified",
+      "priority": "high",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T05:39:40.863Z"
+    },
+    {
+      "id": "1782293048049",
+      "title": "team standup",
+      "description": "team standup",
+      "time": "2026-06-24T09:28:00.000Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T05:39:40.863Z"
+    },
+    {
+      "id": "1782293261636",
+      "title": "meeting standup",
+      "description": "standup meeting",
+      "time": "2026-06-24 09:29:00Z",
+      "status": "notified",
+      "priority": "medium",
+      "frequency": 1,
+      "remaining": 1,
+      "intervalHours": 24,
+      "lastNotified": "2026-06-25T05:39:40.863Z"
+    }
+  ]
+}
