@@ -1,0 +1,26 @@
+{
+  "name": "ai-agent",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "2.8.0",
+    "@google/generative-ai": "0.24.1",
+    "@qdrant/js-client-rest": "1.18.0",
+    "cors": "2.8.6",
+    "dotenv": "17.4.2",
+    "express": "5.2.1",
+    "google-it": "1.6.4",
+    "jsoning": "1.0.1",
+    "openai": "6.42.0",
+    "pdf-parse": "2.4.5",
+    "v8-compile-cache-lib": "3.0.1"
+  }
+}

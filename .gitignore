@@ -4,5 +4,15 @@ node_modules/
 dist/
 build/
 coverage/
-package-lock.json
-package.json
+
+# Runtime data (created automatically by the app)
+agent_logs.txt
+chat_history.json
+tasks.json
+response.json
+models.json
+eval_report.json
+output/
+
+# Source documents
+sample.pdf

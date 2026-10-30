@@ -132,18 +132,18 @@ ai-agent/
 │
 ├── index.html             # Single-page frontend: dashboard, chat, task modal, conflict modal
 │
-├── tasks.json             # Persistent task store (JSON)
-├── chat_history.json      # Chat session history (JSON)
-├── agent_logs.txt         # Append-only agent execution log
+├── tasks.json             # Persistent task store (JSON, auto-created, git-ignored)
+├── chat_history.json      # Chat session history (JSON, auto-created, git-ignored)
+├── agent_logs.txt         # Append-only agent execution log (git-ignored)
 │
 ├── createCollection.js    # One-time setup: creates Qdrant 'documents' collection
-├── peek_data.js           # Debug utility: prints one vector from Qdrant
+├── scripts/               # Debug utilities (e.g. peek_data.js prints one vector from Qdrant)
 │
 ├── langchain/
 │   ├── manual_agent.js    # Educational: tool loop written manually with LangChain SDK
 │   └── langchain_agent.js # Educational: same agent with LangGraph (much shorter)
 │
-└── .gitignore             # Excludes: node_modules, .env, package*.json
+└── .gitignore             # Excludes: node_modules, .env, runtime data, sample.pdf
 ```
 
 ---
@@ -567,7 +567,7 @@ docker run -p 6333:6333 qdrant/qdrant
 node createCollection.js
 
 # Debug: verify data in collection
-node peek_data.js
+node scripts/peek_data.js
 ```
 
 ---
@@ -788,12 +788,12 @@ node createCollection.js
 - Creates new collection with 3072-dim vectors, Cosine distance
 - Used for storing user-uploaded document embeddings
 
-### `peek_data.js`
+### `scripts/peek_data.js`
 
 Debug inspection tool:
 
 ```bash
-node peek_data.js
+node scripts/peek_data.js
 ```
 
 - Connects to Qdrant at localhost:6333
